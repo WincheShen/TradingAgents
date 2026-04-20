@@ -69,17 +69,26 @@ class OpenAIClient(BaseLLMClient):
                     llm_kwargs["api_key"] = api_key
             else:
                 llm_kwargs["api_key"] = "ollama"
-        elif self.base_url:
-            llm_kwargs["base_url"] = self.base_url
+        else:
+            # Support custom base_url for proxy / Azure OpenAI / compatible endpoints.
+            # Priority: constructor arg > OPENAI_BASE_URL env var
+            custom_url = self.base_url or os.environ.get("OPENAI_BASE_URL")
+            if custom_url:
+                llm_kwargs["base_url"] = custom_url
 
         # Forward user-provided kwargs
         for key in _PASSTHROUGH_KWARGS:
             if key in self.kwargs:
                 llm_kwargs[key] = self.kwargs[key]
 
+        # Ensure a sensible default for max_retries (HTTP-level retries)
+        llm_kwargs.setdefault("max_retries", 6)
+
         # Native OpenAI: use Responses API for consistent behavior across
-        # all model families. Third-party providers use Chat Completions.
-        if self.provider == "openai":
+        # all model families. Third-party providers and Azure OpenAI
+        # compatible endpoints use standard Chat Completions.
+        is_azure = "azure" in llm_kwargs.get("base_url", "")
+        if self.provider == "openai" and not is_azure:
             llm_kwargs["use_responses_api"] = True
 
         return NormalizedChatOpenAI(**llm_kwargs)

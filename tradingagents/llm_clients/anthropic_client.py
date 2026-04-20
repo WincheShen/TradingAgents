@@ -41,6 +41,9 @@ class AnthropicClient(BaseLLMClient):
             if key in self.kwargs:
                 llm_kwargs[key] = self.kwargs[key]
 
+        # Ensure a sensible default for max_retries (HTTP-level retries)
+        llm_kwargs.setdefault("max_retries", 6)
+
         return NormalizedChatAnthropic(**llm_kwargs)
 
     def validate_model(self) -> bool:
