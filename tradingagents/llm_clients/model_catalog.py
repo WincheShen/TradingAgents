@@ -101,7 +101,23 @@ MODEL_OPTIONS: ProviderModeOptions = {
             ("Custom model ID", "custom"),
         ],
     },
-    # OpenRouter: fetched dynamically. Azure: any deployed model name.
+    # OpenRouter: fetched dynamically.
+    "azure": {
+        "quick": [
+            ("GPT-5.3 Chat - Balanced reasoning and cost", "gpt-5.3-chat"),
+            ("GPT-5.4 Mini - Fast, strong coding and tool use", "gpt-5.4-mini"),
+            ("GPT-5.4 Nano - Cheapest, high-volume tasks", "gpt-5.4-nano"),
+            ("GPT-4.1 - Smartest non-reasoning model", "gpt-4.1"),
+            ("Custom deployment name", "custom"),
+        ],
+        "deep": [
+            ("GPT-5.3 Chat - Balanced reasoning and cost", "gpt-5.3-chat"),
+            ("GPT-5.4 - Latest frontier, 1M context", "gpt-5.4"),
+            ("GPT-5.2 - Strong reasoning, cost-effective", "gpt-5.2"),
+            ("GPT-5.4 Pro - Most capable, expensive", "gpt-5.4-pro"),
+            ("Custom deployment name", "custom"),
+        ],
+    },
     "ollama": {
         "quick": [
             ("Qwen3:latest (8B, local)", "qwen3:latest"),

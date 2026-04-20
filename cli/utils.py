@@ -187,12 +187,6 @@ def _select_model(provider: str, mode: str) -> str:
     if provider.lower() == "openrouter":
         return select_openrouter_model()
 
-    if provider.lower() == "azure":
-        return questionary.text(
-            f"Enter Azure deployment name ({mode}-thinking):",
-            validate=lambda x: len(x.strip()) > 0 or "Please enter a deployment name.",
-        ).ask().strip()
-
     choice = questionary.select(
         f"Select Your [{mode.title()}-Thinking LLM Engine]:",
         choices=[
@@ -230,9 +224,13 @@ def select_deep_thinking_agent(provider) -> str:
 
 def select_llm_provider() -> tuple[str, str | None]:
     """Select the LLM provider and its API endpoint."""
+    import os
+
     # (display_name, provider_key, base_url)
+    # OpenAI base_url: prefer OPENAI_BASE_URL env var for proxy support
+    openai_url = os.environ.get("OPENAI_BASE_URL", "https://api.openai.com/v1")
     PROVIDERS = [
-        ("OpenAI", "openai", "https://api.openai.com/v1"),
+        ("OpenAI", "openai", openai_url),
         ("Google", "google", None),
         ("Anthropic", "anthropic", "https://api.anthropic.com/"),
         ("xAI", "xai", "https://api.x.ai/v1"),
