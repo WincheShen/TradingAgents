@@ -24,6 +24,23 @@ from .alpha_vantage import (
 )
 from .alpha_vantage_common import AlphaVantageRateLimitError
 
+# Optional: Chinese A-share data via AKShare (pip install akshare)
+try:
+    from .cn_stock import (
+        get_stock_data as get_akshare_stock,
+        get_indicators as get_akshare_indicator,
+        get_fundamentals as get_akshare_fundamentals,
+        get_balance_sheet as get_akshare_balance_sheet,
+        get_cashflow as get_akshare_cashflow,
+        get_income_statement as get_akshare_income_statement,
+        get_insider_transactions as get_akshare_insider_transactions,
+        get_news as get_akshare_news,
+        get_global_news as get_akshare_global_news,
+    )
+    _HAS_AKSHARE = True
+except ImportError:
+    _HAS_AKSHARE = False
+
 # Configuration and routing logic
 from .config import get_config
 
@@ -64,6 +81,8 @@ VENDOR_LIST = [
     "yfinance",
     "alpha_vantage",
 ]
+if _HAS_AKSHARE:
+    VENDOR_LIST.append("akshare")
 
 # Mapping of methods to their vendor-specific implementations
 VENDOR_METHODS = {
@@ -108,6 +127,18 @@ VENDOR_METHODS = {
         "yfinance": get_yfinance_insider_transactions,
     },
 }
+
+# Register AKShare vendor for all methods when available
+if _HAS_AKSHARE:
+    VENDOR_METHODS["get_stock_data"]["akshare"] = get_akshare_stock
+    VENDOR_METHODS["get_indicators"]["akshare"] = get_akshare_indicator
+    VENDOR_METHODS["get_fundamentals"]["akshare"] = get_akshare_fundamentals
+    VENDOR_METHODS["get_balance_sheet"]["akshare"] = get_akshare_balance_sheet
+    VENDOR_METHODS["get_cashflow"]["akshare"] = get_akshare_cashflow
+    VENDOR_METHODS["get_income_statement"]["akshare"] = get_akshare_income_statement
+    VENDOR_METHODS["get_news"]["akshare"] = get_akshare_news
+    VENDOR_METHODS["get_global_news"]["akshare"] = get_akshare_global_news
+    VENDOR_METHODS["get_insider_transactions"]["akshare"] = get_akshare_insider_transactions
 
 def get_category_for_method(method: str) -> str:
     """Get the category that contains the specified method."""

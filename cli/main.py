@@ -503,7 +503,7 @@ def get_user_selections():
     console.print(
         create_question_box(
             "Step 1: Ticker Symbol",
-            "Enter the exact ticker symbol to analyze, including exchange suffix when needed (examples: SPY, CNC.TO, 7203.T, 0700.HK)",
+            "Enter the exact ticker symbol to analyze, including exchange suffix when needed (examples: SPY, CNC.TO, 7203.T, 0700.HK, 600519.SS, 000858.SZ)",
             "SPY",
         )
     )
@@ -943,6 +943,12 @@ def run_analysis():
     config["openai_reasoning_effort"] = selections.get("openai_reasoning_effort")
     config["anthropic_effort"] = selections.get("anthropic_effort")
     config["output_language"] = selections.get("output_language", "English")
+
+    # Auto-detect market from ticker: Chinese A-share codes → market="cn"
+    from tradingagents.dataflows.cn_stock.utils import is_cn_ticker
+    if is_cn_ticker(selections["ticker"]):
+        config["market"] = "cn"
+        console.print("[cyan]Detected Chinese A-share ticker → using AKShare data vendor[/cyan]")
 
     # Create stats callback handler for tracking LLM/tool calls
     stats_handler = StatsCallbackHandler()

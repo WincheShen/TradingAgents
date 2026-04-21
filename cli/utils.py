@@ -8,7 +8,7 @@ from tradingagents.llm_clients.model_catalog import get_model_options
 
 console = Console()
 
-TICKER_INPUT_EXAMPLES = "Examples: SPY, CNC.TO, 7203.T, 0700.HK"
+TICKER_INPUT_EXAMPLES = "Examples: SPY, CNC.TO, 7203.T, 0700.HK, 600519.SS, 000858.SZ"
 
 ANALYST_ORDER = [
     ("Market Analyst", AnalystType.MARKET),
@@ -39,8 +39,20 @@ def get_ticker() -> str:
 
 
 def normalize_ticker_symbol(ticker: str) -> str:
-    """Normalize ticker input while preserving exchange suffixes."""
-    return ticker.strip().upper()
+    """Normalize ticker input while preserving exchange suffixes.
+
+    Auto-detects bare 6-digit Chinese A-share codes and appends the
+    correct exchange suffix (.SS for Shanghai, .SZ for Shenzhen).
+    """
+    import re
+    s = ticker.strip().upper()
+    # Auto-detect bare 6-digit Chinese A-share codes
+    if re.match(r"^\d{6}$", s):
+        from tradingagents.dataflows.cn_stock.utils import detect_exchange_suffix
+        suffix = detect_exchange_suffix(s)
+        if suffix:
+            return f"{s}{suffix}"
+    return s
 
 
 def get_analysis_date() -> str:
