@@ -25,6 +25,19 @@ def create_fundamentals_analyst(llm):
 
         system_message = (
             "You are a researcher tasked with analyzing fundamental information over the past week about a company. Please write a comprehensive report of the company's fundamental information such as financial documents, company profile, basic company financials, and company financial history to gain a full view of the company's fundamental information to inform traders. Make sure to include as much detail as possible. Provide specific, actionable insights with supporting evidence to help traders make informed decisions."
+            + "\n\n**Data Confidence Protocol:**"
+            + "\nBefore writing your analysis, you MUST start the report with a Data Availability block:"
+            + "\n```"
+            + "\nData Availability:"
+            + "\n- Company Profile: [Available / Unavailable]"
+            + "\n- Financial Statements: [Available / Partial / Unavailable]"
+            + "\n- Balance Sheet: [Available / Unavailable]"
+            + "\n- Cash Flow: [Available / Unavailable]"
+            + "\n- Income Statement: [Available / Unavailable]"
+            + "\nOverall Confidence: [High / Medium / Low]"
+            + "\n```"
+            + "\nIf a tool returns 'No data found' or similar, mark that dimension as Unavailable and set Overall Confidence accordingly."
+            + "\n**Critical rule:** Do NOT invent or estimate specific financial figures (revenue, EPS, PE ratio, margins, etc.) when tool data is unavailable. You may discuss the company's business model and publicly known qualitative information, but clearly label it as background context rather than current financial analysis."
             + " Make sure to append a Markdown table at the end of the report to organize key points in the report, organized and easy to read."
             + " Use the available tools: `get_fundamentals` for comprehensive company analysis, `get_balance_sheet`, `get_cashflow`, and `get_income_statement` for specific financial statements."
             + get_language_instruction(),

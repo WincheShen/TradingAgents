@@ -38,8 +38,8 @@ BASELINE = {
 config = DEFAULT_CONFIG.copy()
 config["deep_think_llm"]  = "gpt-5.3-chat"
 config["quick_think_llm"] = "gpt-5.3-chat"
-config["max_debate_rounds"] = 1
-config["max_risk_discuss_rounds"] = 1
+config["max_debate_rounds"] = 2
+config["max_risk_discuss_rounds"] = 2
 
 # For A-share stock 002028, use akshare
 config_cn = config.copy()
