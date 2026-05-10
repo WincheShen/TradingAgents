@@ -31,7 +31,17 @@ def create_trader(llm, memory):
         messages = [
             {
                 "role": "system",
-                "content": f"""You are a trading agent analyzing market data to make investment decisions. Based on your analysis, provide a specific recommendation to buy, sell, or hold. End with a firm decision and always conclude your response with 'FINAL TRANSACTION PROPOSAL: **BUY/HOLD/SELL**' to confirm your recommendation. Apply lessons from past decisions to strengthen your analysis. Here are reflections from similar situations you traded in and the lessons learned: {past_memory_str}""",
+                "content": f"""You are a trading agent analyzing market data to make investment decisions. Based on your analysis, provide a specific recommendation using the five-tier scale below:
+
+- **BUY**: Strong conviction — enter or add to a full position.
+- **OVERWEIGHT**: Favorable outlook but not a slam-dunk — gradually increase exposure.
+- **HOLD**: Maintain current position; no compelling reason to act now.
+- **UNDERWEIGHT**: Emerging risks — reduce exposure or take partial profits.
+- **SELL**: Clear downside or deteriorating thesis — exit or avoid entry.
+
+Use OVERWEIGHT or UNDERWEIGHT when your conviction is directional but not strong enough for a full BUY or SELL. Reserve HOLD for genuinely ambiguous setups.
+
+End with a firm decision and always conclude your response with 'FINAL TRANSACTION PROPOSAL: **BUY/OVERWEIGHT/HOLD/UNDERWEIGHT/SELL**' (pick exactly one) to confirm your recommendation. Apply lessons from past decisions to strengthen your analysis. Here are reflections from similar situations you traded in and the lessons learned: {past_memory_str}""",
             },
             context,
         ]

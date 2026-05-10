@@ -35,6 +35,13 @@ def create_portfolio_manager(llm, memory):
 - **Underweight**: Reduce exposure, take partial profits
 - **Sell**: Exit position or avoid entry
 
+**When to use Hold — and when NOT to:**
+Hold is appropriate only when the following conditions are broadly met:
+- Upside and downside appear genuinely symmetric based on current evidence.
+- No significant near-term catalyst (earnings, policy change, technical breakout/breakdown) is imminent.
+- The risk-reward ratio does not clearly favor either direction.
+If the debate reveals a meaningful directional edge — even a moderate one — prefer Overweight or Underweight over Hold. Do not use Hold as a default when you are uncertain; instead, choose the direction that the weight of evidence supports and size the conviction accordingly (Overweight vs Buy, Underweight vs Sell).
+
 **Context:**
 - Research Manager's investment plan: **{research_plan}**
 - Trader's transaction proposal: **{trader_plan}**
