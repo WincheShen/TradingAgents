@@ -1,0 +1,10 @@
+{
+  "ETN": {
+    "trader_proposal": "FINAL TRANSACTION PROPOSAL: **OVERWEIGHT**",
+    "neutral_proposal": "(not found)",
+    "portfolio_rating": "(not found)",
+    "signal": "OVERWEIGHT",
+    "neutral_raw_tail": "d change the verdict:\n\nBuy / Overweight would become justified if:\n- price **breaks and holds above 420–425 with volume**, confirming a new trend leg, or  \n- price **pulls back toward 395–405** while momentum resets.\n\nSell would only become justified if:\n- price **breaks below the 50‑day average (~373)** and momentum indicators roll over.\n\nUntil one of those happens, the data shows **a strong company but a stretched entry point**, and the conservative discipline is the better‑supported position.",
+    "portfolio_raw_tail": "re to a structural infrastructure winner while respecting the elevated short‑term technical conditions.\n\nIn short: Eaton’s valuation is rich because its growth profile has structurally improved. The electrification and AI power‑infrastructure cycle likely runs for years, and Eaton is positioned as a critical supplier. The portfolio should lean long, but execution should be disciplined—adding during pullbacks, consolidations, or confirmed breakout continuation rather than chasing momentum spikes."
+  }
+}
