@@ -189,7 +189,7 @@ class TradingAgentsGraph:
             ),
         }
 
-    def propagate(self, company_name, trade_date):
+    def propagate(self, company_name, trade_date, callbacks=None):
         """Run the trading agents graph for a company on a specific date."""
 
         self.ticker = company_name
@@ -198,7 +198,7 @@ class TradingAgentsGraph:
         init_agent_state = self.propagator.create_initial_state(
             company_name, trade_date
         )
-        args = self.propagator.get_graph_args()
+        args = self.propagator.get_graph_args(callbacks=callbacks)
 
         if self.debug:
             # Debug mode with tracing
